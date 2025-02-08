@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SM64COOPDX 中文版</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ff4a4a;
+            --secondary: #4a4aff;
+            --accent: #4aff4a;
+            --gold: #ffd700;
+            --bg-dark: #000;
+            --bg-light: #f0f0f0;
+            --text-dark: #fff;
+            --text-light: #333;
+            --card-bg-dark: rgba(255, 255, 255, 0.05);
+            --card-bg-light: rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        body.light-theme {
+            background: var(--bg-light);
+            color: var(--text-light);
+        }
+
+        /* Background pattern with enhanced animation */
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('bg.jpg') center/cover;
+            opacity: 0.15;
+            z-index: -1;
+            animation: scrollPattern 60s linear infinite;
+        }
+
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.8) 100%);
+            z-index: -1;
+            transition: opacity 0.5s ease;
+        }
+
+        body.light-theme .background-overlay {
+            opacity: 0.3;
+        }
+
+        @keyframes scrollPattern {
+            from { transform: translateY(0) rotate(0deg); }
+            to { transform: translateY(-50%) rotate(5deg); }
+        }
+
+        /* Enhanced Navigation */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background-color 0.5s ease;
+        }
+
+        body.light-theme .nav-buttons {
+            background: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 24px;
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.light-theme .nav-button {
+            background: rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(0, 0, 0, 0.2);
+            color: var(--text-light);
+        }
+
+        .nav-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .nav-button:hover:before {
+            left: 100%;
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        body.light-theme .nav-button:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        /* Enhanced Logo */
+        .logo {
+            text-align: center;
+            margin: 60px auto;
+            max-width: 800px;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .logo img {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        /* Enhanced Content sections */
+        .section {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: sectionFadeIn 0.8s ease forwards;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.5s ease, border-color 0.5s ease;
+        }
+
+        body.light-theme .section {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes sectionFadeIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .section h2 {
+            color: var(--gold);
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5em;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        body.light-theme .section h2 {
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(255, 74, 74, 0.5);
+        }
+
+        /* Enhanced Links */
+        .links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .link-card {
+            background: var(--card-bg-dark);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.light-theme .link-card {
+            background: var(--card-bg-light);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        body.light-theme .link-card:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .link-card h3 {
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        body.light-theme .link-card h3 {
+            color: var(--primary);
+        }
+
+        .link-card a {
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 5px 0;
+            background: rgba(74, 255, 74, 0.2);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        body.light-theme .link-card a {
+            color: var(--text-light);
+            background: rgba(74, 74, 255, 0.2);
+        }
+
+        .link-card a:hover {
+            background: rgba(74, 255, 74, 0.3);
+            transform: translateX(5px);
+        }
+
+        body.light-theme .link-card a:hover {
+            background: rgba(74, 74, 255, 0.3);
+        }
+
+        /* Enhanced QQ Group */
+        .qq-group {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 30px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            transition: background-color 0.5s ease;
+        }
+
+        body.light-theme .qq-group {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .qq-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .qq-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+        }
+
+        .qq-number {
+            font-family: monospace;
+            font-size: 1.2em;
+            color: var(--gold);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        body.light-theme .qq-number {
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(255, 74, 74, 0.3);
+        }
+
+        /* List styling */
+        .feature-list {
+            margin: 20px 0;
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 10px 0 10px 30px;
+            position: relative;
+        }
+
+        .feature-list li:before {
+            content: '★';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+        }
+
+        body.light-theme .feature-list li:before {
+            color: var(--primary);
+        }
+
+        /* Footer styling */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            margin-top: 60px;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        body.light-theme .footer {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .footer .developer-names {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer .developer-name {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: linear-gradient(45deg, #ff4a4a, #4a4aff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .footer .developer-name:hover {
+            transform: translateY(-5px) scale(1.05);
+            text-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        body.light-theme .footer .developer-name {
+            background: linear-gradient(45deg, #ff4a4a, #4a4aff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        body.light-theme .footer .developer-name:hover {
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .logo img {
+                max-width: 90%;
+            }
+
+            .section {
+                margin: 30px 20px;
+                padding: 20px;
+            }
+
+            .section h2 {
+                font-size: 2em;
+            }
+
+            .nav-button {
+                padding: 10px 20px;
+            }
+
+            .footer .developer-names {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* Scroll bar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 215, 0, 0.5);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 215, 0, 0.7);
+        }
+
+        body.light-theme ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-theme ::-webkit-scrollbar-thumb {
+            background: rgba(255, 74, 74, 0.5);
+        }
+
+        body.light-theme ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 74, 74, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+    <div class="background-overlay"></div>
+    
+    <nav class="nav-buttons">
+        <a href="#" class="nav-button" onclick="toggleTheme()">切换主题</a>
+        <a href="#about" class="nav-button">关于我们</a>
+        <a href="#download" class="nav-button">下载游戏</a>
+    </nav>
+
+    <div class="logo">
+        <img src="/logo.png" alt="SM64COOPDX 中文版" id="logo-image">
+    </div>
+
+    <section id="about" class="section">
+        <h2>关于项目</h2>
+        <p>SM64COOPDX 中文版是由 "上善若Shangshanruo" 和 "梅塔的长名字" 共同开发的超级马里奥64多人联机版本。我们为游戏添加了完整的中文支持，打造最佳的游戏体验。</p>
+        <ul class="feature-list">
+            <li>完整的界面汉化</li>
+            <li>中文输入法支持</li>
+            <li>PC版本和安卓版本双平台支持</li>
+            <li>优化的游戏性能</li>
+            <li>持续更新维护</li>
+        </ul>
+    </section>
+
+    <section id="download" class="section">
+        <h2>下载游戏</h2>
+        <div class="qq-group">
+            <p>加入我们的QQ群获取最新版本：</p>
+            <a href="https://qm.qq.com/q/89m8C5v7GM" target="_blank" class="qq-button">
+                点击加入QQ群
+            </a>
+            <div class="qq-number">群号：981281124</div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>相关链接</h2>
+        <div class="links">
+            <div class="link-card">
+                <h3>开发者B站主页</h3>
+                <p><a href="https://space.bilibili.com/426046208" target="_blank">梅塔的长名字</a></p>
+                <p><a href="https://space.bilibili.com/2037132772" target="_blank">上善若Shangshanruo</a></p>
+            </div>
+            <div class="link-card">
+                <h3>GitHub仓库</h3>
+                <p><a href="https://github.com/Shangshanruo666/sm64coopdx-Chinese" target="_blank">PC版源码</a></p>
+                <p><a href="https://github.com/Shangshanruo666/sm64coopdx-Chinese-Android" target="_blank">安卓版源码</a></p>
+            </div>
+            <div class="link-card">
+                <h3>原版项目</h3>
+                <p><a href="https://github.com/coop-deluxe/sm64coopdx/" target="_blank">SM64COOPDX (英文原版)</a></p>
+                <p><a href="https://github.com/ManIsCat2/sm64coopdx/" target="_blank">SM64COOPDX (英文安卓版)</a></p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div>&copy; 2025 SM64COOPDX 中文版</div>
+        <div class="developer-names">
+            <span class="developer-name">上善若Shangshanruo</span>
+            <span class="developer-name">梅塔的长名字</span>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality with enhanced transitions
+        let isDark = true;
+        function toggleTheme() {
+            isDark = !isDark;
+            document.body.classList.toggle('light-theme');
+        }
+
+        // Smooth scroll with enhanced behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                if(this.getAttribute('href') === '#') return;
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            });
+        });
+
+        // Intersection Observer for section animations
+        const sections = document.querySelectorAll('.section');
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            },
+            {
+                threshold: 0.1
+            }
+        );
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
+
